@@ -44,7 +44,7 @@ public class ServiceRegistry {
         // 创建 address 节点（临时）
         String addressPath = servicePath + "/address-";
         String addressNode = zkClient.createEphemeralSequential(addressPath, serviceAddress);
-        LOGGER.info("create address node: {} data: {}", addressNode, serviceAddress);
+        LOGGER.info("create address node: {} , data: {}", addressNode, serviceAddress);
     }
 
 }
