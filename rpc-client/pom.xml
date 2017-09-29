@@ -22,6 +22,17 @@
             <artifactId>rpc.noframe.common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ice</groupId>
+            <artifactId>rpc.noframe.server</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- ZkClient -->
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.10</version>
+        </dependency>
     </dependencies>
 
 </project>

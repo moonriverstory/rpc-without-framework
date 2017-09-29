@@ -46,11 +46,18 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-        Map<String, Object> serviceBeanMap = ctx.getBeansWithAnnotation(RpcService.class); // 获取所有带有 RpcService 注解的 Spring Bean
+        // 扫描 获取所有带有 RpcService 注解的 Spring Bean
+        Map<String, Object> serviceBeanMap = ctx.getBeansWithAnnotation(RpcService.class);
         if (MapUtils.isNotEmpty(serviceBeanMap)) {
             for (Object serviceBean : serviceBeanMap.values()) {
-                String interfaceName = serviceBean.getClass().getAnnotation(RpcService.class).value().getName();
-                handlerMap.put(interfaceName, serviceBean);
+                RpcService rpcService = serviceBean.getClass().getAnnotation(RpcService.class);
+                String serviceName = rpcService.value().getName();
+                String serviceVersion = rpcService.version();
+                if (serviceVersion != null && !"".equals(serviceVersion.trim())) {
+                    serviceName += "-" + serviceVersion;
+                }
+                LOGGER.info("Scan RpcService, get serviceName= " + serviceName + " ,serviceVersion= " + serviceVersion);
+                handlerMap.put(serviceName, serviceBean);
             }
         }
     }
@@ -74,17 +81,23 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
+            // 获取 RPC 服务器的 IP 地址与端口号
             String[] array = serverAddress.split(":");
             String host = array[0];
             int port = Integer.parseInt(array[1]);
 
             ChannelFuture future = bootstrap.bind(host, port).sync();
-            LOGGER.debug("server started on port {}", port);
+            LOGGER.info("server started on port {}", port);
 
             if (serviceRegistry != null) {
-                serviceRegistry.register(serverAddress); // 注册服务地址
+                // 注册服务地址
+                for (String interfaceName : handlerMap.keySet()) {
+                    serviceRegistry.register(interfaceName, serverAddress);
+                    LOGGER.debug("register service: {} => {}", interfaceName, serverAddress);
+                }
             }
 
+            // 关闭 RPC 服务器
             future.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();

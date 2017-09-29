@@ -6,7 +6,8 @@
 
     <context:property-placeholder location="classpath:config.properties"/>
 
-    <context:component-scan base-package="server"/>
+    <!--扫描rpc服务实现类-->
+    <context:component-scan base-package="rpcImpl"/>
 
     <!-- 配置服务注册组件 -->
     <bean id="serviceRegistry" class="register.ServiceRegistry">
