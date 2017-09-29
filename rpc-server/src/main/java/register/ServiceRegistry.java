@@ -39,12 +39,12 @@ public class ServiceRegistry {
         String servicePath = registryPath + "/" + serviceName;
         if (!zkClient.exists(servicePath)) {
             zkClient.createPersistent(servicePath);
-            LOGGER.debug("create service node: {}", servicePath);
+            LOGGER.info("create service node: {}", servicePath);
         }
         // 创建 address 节点（临时）
         String addressPath = servicePath + "/address-";
         String addressNode = zkClient.createEphemeralSequential(addressPath, serviceAddress);
-        LOGGER.debug("create address node: {}", addressNode);
+        LOGGER.info("create address node: {} data: {}", addressNode, serviceAddress);
     }
 
 }

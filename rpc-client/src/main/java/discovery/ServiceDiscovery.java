@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -13,21 +12,18 @@ public class ServiceDiscovery {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceDiscovery.class);
 
-
-    private volatile List<String> addressList = new ArrayList<>();
-
     private String registryAddress;
 
     public ServiceDiscovery(String registryAddress) {
         this.registryAddress = registryAddress;
     }
 
-    public String discover() {
+    public String discover(String name) {
         // 创建 ZooKeeper 客户端
         ZkClient zkClient = new ZkClient(registryAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
         LOGGER.info("connect zookeeper：" + registryAddress);
         try {
-            String servicePath = Constant.ZK_REGISTRY_PATH;
+            String servicePath = Constant.ZK_REGISTRY_PATH + "/" + name;
             // 获取 service 节点
             List<String> nodeList = zkClient.getChildren(servicePath);
             if (nodeList == null || nodeList.isEmpty()) {
@@ -49,9 +45,9 @@ public class ServiceDiscovery {
             // 获取 address 节点的值
             String addressPath = servicePath + "/" + address;
             // 读取一个数据，即注册在zk上面的rpc服务地址
-            byte[] bytes = zkClient.readData(addressPath);
-            LOGGER.info(""+bytes);
-            return "";
+            String serviceAddress = zkClient.readData(addressPath);
+            LOGGER.info("get service address: " + serviceAddress);
+            return serviceAddress;
         } catch (Exception e) {
             LOGGER.error("获取节点数据ERROR: ", e);
             return null;

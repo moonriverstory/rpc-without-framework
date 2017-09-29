@@ -14,8 +14,8 @@ public class RpcProxy {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T create(final Class<?> interfaceClass) {
-        return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[]{interfaceClass}, new Invoker(serviceDiscovery));
+    public <T> T create(final Class<?> interfaceClass, final String serviceVersion) {
+        return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class<?>[]{interfaceClass}, new Invoker(serviceDiscovery, serviceVersion));
     }
 }
 

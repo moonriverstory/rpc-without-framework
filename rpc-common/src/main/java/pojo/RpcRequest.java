@@ -3,17 +3,26 @@ package pojo;
 public class RpcRequest {
 
     private String requestId;
-    private String className;
+    private String interfaceName;
     private String methodName;
     private Class<?>[] parameterTypes;
     private Object[] parameters;
+    private String serviceVersion;
+
+    public String getServiceVersion() {
+        return serviceVersion;
+    }
+
+    public void setServiceVersion(String serviceVersion) {
+        this.serviceVersion = serviceVersion;
+    }
 
     public String getRequestId() {
         return requestId;
     }
 
-    public String getClassName() {
-        return className;
+    public String getInterfaceName() {
+        return interfaceName;
     }
 
     public String getMethodName() {
@@ -32,8 +41,8 @@ public class RpcRequest {
         this.requestId = requestId;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
     }
 
     public void setMethodName(String methodName) {
@@ -47,5 +56,7 @@ public class RpcRequest {
     public void setParameters(Object[] parameters) {
         this.parameters = parameters;
     }
+
+
 }
 

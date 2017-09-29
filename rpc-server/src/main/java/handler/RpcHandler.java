@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pojo.RpcRequest;
 import pojo.RpcResponse;
+import util.StringUtil;
 
 import java.util.Map;
 
@@ -36,18 +37,23 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
     }
 
     private Object handle(RpcRequest request) throws Throwable {
-        String className = request.getClassName();
-        Object serviceBean = handlerMap.get(className);
+        String serviceName = request.getInterfaceName();
+        String serviceVersion = request.getServiceVersion();
+        if (StringUtil.isNotEmpty(serviceVersion)) {
+            serviceName += "-" + serviceVersion;
+        }
+        Object serviceBean = handlerMap.get(serviceName);
+        if (serviceBean == null) {
+            throw new RuntimeException(String.format("can not find service bean by key: %s", serviceName));
+        }
 
+        // 获取反射调用所需的参数
         Class<?> serviceClass = serviceBean.getClass();
         String methodName = request.getMethodName();
         Class<?>[] parameterTypes = request.getParameterTypes();
         Object[] parameters = request.getParameters();
 
-        /*Method method = serviceClass.getMethod(methodName, parameterTypes);
-        method.setAccessible(true);
-        return method.invoke(serviceBean, parameters);*/
-
+        // 使用 CGLib 执行反射调用
         FastClass serviceFastClass = FastClass.create(serviceClass);
         FastMethod serviceFastMethod = serviceFastClass.getMethod(methodName, parameterTypes);
         return serviceFastMethod.invoke(serviceBean, parameters);

@@ -49,6 +49,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         // 扫描 获取所有带有 RpcService 注解的 Spring Bean
         Map<String, Object> serviceBeanMap = ctx.getBeansWithAnnotation(RpcService.class);
         if (MapUtils.isNotEmpty(serviceBeanMap)) {
+            LOGGER.info("Scan serviceBeanMap = " + serviceBeanMap.toString());
             for (Object serviceBean : serviceBeanMap.values()) {
                 RpcService rpcService = serviceBean.getClass().getAnnotation(RpcService.class);
                 String serviceName = rpcService.value().getName();
@@ -93,7 +94,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                 // 注册服务地址
                 for (String interfaceName : handlerMap.keySet()) {
                     serviceRegistry.register(interfaceName, serverAddress);
-                    LOGGER.debug("register service: {} => {}", interfaceName, serverAddress);
+                    LOGGER.info("register service: {} => {}", interfaceName, serverAddress);
                 }
             }
 
