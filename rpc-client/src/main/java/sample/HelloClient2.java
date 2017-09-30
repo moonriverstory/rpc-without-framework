@@ -17,7 +17,7 @@ public class HelloClient2 {
         RpcProxy rpcProxy = context.getBean(RpcProxy.class);
 
         HelloService helloService = rpcProxy.create(HelloService.class);
-        String result = helloService.hello(new Person("Yong", "Huang"));
+        String result = helloService.hello(new Person("Kevin", "Mitchell"));
         LOGGER.info("helloService.hello(Person), result= " + result);
 
         System.exit(0);

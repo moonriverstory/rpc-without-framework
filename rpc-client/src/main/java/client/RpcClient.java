@@ -54,7 +54,8 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
     }
 
     /**
-     * 发送rpc请求返回应答(netty客户端socket channel每次发送rpc请求创建，并没有用心跳保持长连接，毕竟只是demo)
+     * 发送rpc请求返回应答(netty客户端socket channel每次发送rpc请求创建，并没有用心跳保持长连接，毕竟只是demo;
+     * 还可以简单优化，在启动时bind服务，不用每次send都创建client)
      *
      * @param request
      * @return

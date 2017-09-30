@@ -30,18 +30,23 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcServer.class);
 
-    private String serverAddress;
+    /**
+     * rpc服务地址
+     */
+    private String serviceAddress;
     private ServiceRegistry serviceRegistry;
 
-    // 存放接口名与服务对象之间的映射关系
+    /**
+     * 存放接口名与服务对象之间的映射关系
+     */
     private Map<String, Object> handlerMap = new HashMap<>();
 
-    public RpcServer(String serverAddress) {
-        this.serverAddress = serverAddress;
+    public RpcServer(String serviceAddress) {
+        this.serviceAddress = serviceAddress;
     }
 
-    public RpcServer(String serverAddress, ServiceRegistry serviceRegistry) {
-        this.serverAddress = serverAddress;
+    public RpcServer(String serviceAddress, ServiceRegistry serviceRegistry) {
+        this.serviceAddress = serviceAddress;
         this.serviceRegistry = serviceRegistry;
     }
 
@@ -95,7 +100,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // 获取 RPC 服务器的 IP 地址与端口号
-            String[] array = serverAddress.split(":");
+            String[] array = serviceAddress.split(":");
             String host = array[0];
             int port = Integer.parseInt(array[1]);
 
@@ -105,8 +110,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
             if (serviceRegistry != null) {
                 // 注册服务地址
                 for (String interfaceName : handlerMap.keySet()) {
-                    serviceRegistry.register(interfaceName, serverAddress);
-                    LOGGER.info("register service: {} => {}", interfaceName, serverAddress);
+                    serviceRegistry.register(interfaceName, serviceAddress);
+                    LOGGER.info("register service: {} => {}", interfaceName, serviceAddress);
                 }
             }
 

@@ -17,6 +17,9 @@ public class Invoker implements InvocationHandler {
 
     private ServiceDiscovery serviceDiscovery;
 
+    /**
+     * rpc impl服务version
+     */
     private String serviceVersion;
 
     public Invoker(ServiceDiscovery serviceDiscovery, String serviceVersion) {

@@ -8,6 +8,9 @@ import util.Constant;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * 从zk上发现rpc服务
+ */
 public class ServiceDiscovery {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceDiscovery.class);

@@ -37,6 +37,7 @@ public class SerializationUtil {
     @SuppressWarnings("unchecked")
     public static <T> byte[] serialize(T obj) {
         Class<T> cls = (Class<T>) obj.getClass();
+        //序列化中LinkedBuffer可以通过ThreadLocal达到重用，不需要每次去创建
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         try {
             Schema<T> schema = getSchema(cls);
