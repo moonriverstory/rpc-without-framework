@@ -57,6 +57,10 @@ public class RpcRequest {
         this.parameters = parameters;
     }
 
-
+    public String toString() {
+        return "[ requestId = " + requestId + " , interfaceName = " + interfaceName + " , methodName = " + methodName
+                + " , parameterTypes = " + (parameterTypes==null?"null":parameterTypes.toString())+ " , parameters = " + (parameters==null?"null":parameters.toString())
+                + " , serviceVersion = " + serviceVersion + " ]";
+    }
 }
 

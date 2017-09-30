@@ -29,5 +29,9 @@ public class RpcResponse {
     public Object getResult() {
         return result;
     }
+
+    public String toString() {
+        return "[ requestId = " + requestId + " , error = " + (error == null ? "null" : error.toString()) + " , result = " + (result == null ? "null" : result.toString()) + " ]";
+    }
 }
 

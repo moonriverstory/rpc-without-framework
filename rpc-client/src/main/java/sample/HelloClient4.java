@@ -34,7 +34,7 @@ public class HelloClient4 {
                     public void run() {
                         HelloService helloService = rpcProxy.create(HelloService.class);
                         String result = helloService.hello("World");
-                        System.out.println(result);
+                        LOGGER.info(result);
                         latch.countDown();
                     }
                 });
@@ -42,10 +42,10 @@ public class HelloClient4 {
             latch.await();
 
             long time = System.currentTimeMillis() - start;
-            System.out.println("thread: " + threadNum);
-            System.out.println("loop: " + loopCount);
-            System.out.println("time: " + time + "ms");
-            System.out.println("tps: " + (double) loopCount / ((double) time / 1000));
+            LOGGER.info("thread: " + threadNum);
+            LOGGER.info("loop: " + loopCount);
+            LOGGER.info("time: " + time + "ms");
+            LOGGER.info("tps: " + (double) loopCount / ((double) time / 1000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

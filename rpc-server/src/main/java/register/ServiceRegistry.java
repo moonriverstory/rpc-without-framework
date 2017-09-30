@@ -16,14 +16,9 @@ public class ServiceRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceRegistry.class);
 
-    private CountDownLatch latch = new CountDownLatch(1);
-
-    private String registryAddress;
-
     private final ZkClient zkClient;
 
     public ServiceRegistry(String registryAddress) {
-        this.registryAddress = registryAddress;
         // 创建 ZooKeeper 客户端
         zkClient = new ZkClient(registryAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
     }

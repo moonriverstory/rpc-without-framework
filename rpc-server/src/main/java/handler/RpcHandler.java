@@ -17,6 +17,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcHandler.class);
 
+    // 存放接口名与服务对象之间的映射关系
     private final Map<String, Object> handlerMap;
 
     public RpcHandler(Map<String, Object> handlerMap) {
@@ -33,6 +34,7 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
         } catch (Throwable t) {
             response.setError(t);
         }
+        LOGGER.info("rpc handler request: " + request.toString() + " ,response: " + response.toString());
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 

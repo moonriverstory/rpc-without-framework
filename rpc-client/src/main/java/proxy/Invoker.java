@@ -60,6 +60,7 @@ public class Invoker implements InvocationHandler {
         if (response == null) {
             throw new RuntimeException("response is null");
         }
+        LOGGER.info("rpc call, request: " + request.toString() + " ,response: " + response.toString());
         // 返回 RPC 响应结果
         if (response.getError() != null) {
             throw response.getError();
