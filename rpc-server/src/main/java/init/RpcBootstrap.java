@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * load spring config
+ * load spring config，启动spring容器
  */
 public class RpcBootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcBootstrap.class);

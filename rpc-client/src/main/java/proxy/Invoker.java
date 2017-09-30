@@ -24,6 +24,15 @@ public class Invoker implements InvocationHandler {
         this.serviceVersion = serviceVersion;
     }
 
+    /**
+     * 代理handler callbacks，利用rpc服务，获取整个rpcImpl对象的返回值
+     *
+     * @param proxy
+     * @param method
+     * @param args
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 创建并初始化 RPC 请求

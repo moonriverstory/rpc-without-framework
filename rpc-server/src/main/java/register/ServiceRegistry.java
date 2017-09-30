@@ -23,6 +23,12 @@ public class ServiceRegistry {
         zkClient = new ZkClient(registryAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
     }
 
+    /**
+     * 注册rpc服务(创建节点，并保存提供rpc服务的ip address)
+     *
+     * @param serviceName
+     * @param serviceAddress
+     */
     public void register(String serviceName, String serviceAddress) {
         // 创建 registry 节点（持久）
         String registryPath = Constant.ZK_REGISTRY_PATH;

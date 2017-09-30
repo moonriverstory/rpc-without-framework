@@ -45,6 +45,12 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         this.serviceRegistry = serviceRegistry;
     }
 
+    /**
+     * 在spring容器初始化的时候，获取并设置接口名与服务对象之间的映射关系
+     *
+     * @param ctx
+     * @throws BeansException
+     */
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
         // 扫描 获取所有带有 RpcService 注解的 Spring Bean
@@ -64,6 +70,11 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
         }
     }
 
+    /**
+     * 在bean初始化并设置属性之后，建立netty channel监听服务
+     *
+     * @throws Exception
+     */
     @Override
     public void afterPropertiesSet() throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup();

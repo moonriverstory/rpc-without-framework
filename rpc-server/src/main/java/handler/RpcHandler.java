@@ -24,6 +24,13 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
         this.handlerMap = handlerMap;
     }
 
+    /**
+     * 处理channel接收到的数据并做出应答
+     *
+     * @param ctx
+     * @param request
+     * @throws Exception
+     */
     @Override
     public void channelRead0(final ChannelHandlerContext ctx, RpcRequest request) throws Exception {
         RpcResponse response = new RpcResponse();
@@ -38,6 +45,13 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
     }
 
+    /**
+     * 根据rpc request反射调用本地方法做出应答
+     *
+     * @param request
+     * @return
+     * @throws Throwable
+     */
     private Object handle(RpcRequest request) throws Throwable {
         String serviceName = request.getInterfaceName();
         String serviceVersion = request.getServiceVersion();

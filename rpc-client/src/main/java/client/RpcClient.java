@@ -21,6 +21,9 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
 
     private RpcResponse response;
 
+    /**
+     * channel阻塞obj
+     */
     private final Object obj = new Object();
 
     public RpcClient(String host, int port) {
@@ -28,6 +31,13 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
         this.port = port;
     }
 
+    /**
+     * channel收到消息
+     *
+     * @param ctx
+     * @param response
+     * @throws Exception
+     */
     @Override
     public void channelRead0(ChannelHandlerContext ctx, RpcResponse response) throws Exception {
         this.response = response;
@@ -43,6 +53,13 @@ public class RpcClient extends SimpleChannelInboundHandler<RpcResponse> {
         ctx.close();
     }
 
+    /**
+     * 发送rpc请求返回应答(netty客户端socket channel每次发送rpc请求创建，并没有用心跳保持长连接，毕竟只是demo)
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
     public RpcResponse send(RpcRequest request) throws Exception {
         EventLoopGroup group = new NioEventLoopGroup();
         try {

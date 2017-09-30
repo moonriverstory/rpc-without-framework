@@ -18,6 +18,12 @@ public class ServiceDiscovery {
         this.registryAddress = registryAddress;
     }
 
+    /**
+     * 发现rpc服务的ip:port地址
+     *
+     * @param name
+     * @return
+     */
     public String discover(String name) {
         // 创建 ZooKeeper 客户端
         ZkClient zkClient = new ZkClient(registryAddress, Constant.ZK_SESSION_TIMEOUT, Constant.ZK_CONNECTION_TIMEOUT);
